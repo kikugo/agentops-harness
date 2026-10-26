@@ -1,0 +1,3 @@
+[submodule "vendor/droit-du-travail-copilot"]
+	path = vendor/droit-du-travail-copilot
+	url = https://github.com/kikugo/droit-du-travail-copilot.git
