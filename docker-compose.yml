@@ -1,0 +1,62 @@
+# Only targets I own: my C1 agent and my own Azure resources.
+# c1 reads the demo index; c1-redteam (profile "redteam") reads articles-redteam,
+# the only index that holds the poisoned test articles.
+
+x-c1: &c1
+  build:
+    context: ./vendor/droit-du-travail-copilot
+    dockerfile: ../../target/Dockerfile.c1
+  image: agentops/c1:5378d5e
+  environment: &c1-env
+    AZURE_SEARCH_ENDPOINT: ${AZURE_SEARCH_ENDPOINT:?set in .env}
+    AZURE_OPENAI_ENDPOINT: ${AZURE_OPENAI_ENDPOINT:?set in .env}
+    FOUNDRY_PROJECT_ENDPOINT: ${FOUNDRY_PROJECT_ENDPOINT:?set in .env}
+    CHAT_DEPLOYMENT: ${CHAT_DEPLOYMENT:-gpt-5.4-mini}
+    EMBEDDING_DEPLOYMENT: ${EMBEDDING_DEPLOYMENT:-text-embedding-3-small}
+    # service principal, read by DefaultAzureCredential (EnvironmentCredential)
+    AZURE_CLIENT_ID: ${AZURE_CLIENT_ID:?set in .env}
+    AZURE_TENANT_ID: ${AZURE_TENANT_ID:?set in .env}
+    AZURE_CLIENT_SECRET: ${AZURE_CLIENT_SECRET:?set in .env}
+  volumes:
+    - ${C1_DATA_DIR:-../droit-du-travail-copilot/data}/articles.jsonl:/app/data/articles.jsonl:ro
+  healthcheck:
+    test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+    interval: 10s
+    timeout: 5s
+    retries: 12
+
+services:
+  c1:
+    <<: *c1
+    environment:
+      <<: *c1-env
+      SEARCH_INDEX: articles-v1
+    ports:
+      - "127.0.0.1:8001:8000"
+
+  c1-redteam:
+    <<: *c1
+    profiles: ["redteam"]
+    environment:
+      <<: *c1-env
+      SEARCH_INDEX: articles-redteam
+    ports:
+      - "127.0.0.1:8002:8000"
+
+  adapter:
+    build: .
+    image: agentops/adapter
+    environment:
+      ADAPTER_API_KEY: ${ADAPTER_API_KEY:?set in .env}
+      C1_URL: http://c1:8000
+      C1_REDTEAM_URL: ${C1_REDTEAM_URL:-}
+    ports:
+      - "127.0.0.1:8080:8080"
+    depends_on:
+      c1:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8080/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 6

@@ -7,7 +7,17 @@ authors = [
     { name = "Karthik Reddy Changal", email = "83645138+kikugo@users.noreply.github.com" }
 ]
 requires-python = ">=3.12"
-dependencies = []
+dependencies = [
+    "azure-identity>=1.26",
+    "azure-search-documents>=12,<13",
+    "fastapi>=0.162",
+    "httpx>=0.28",
+    "numpy>=2.5",
+    "openai>=3.37",
+    "python-dotenv>=1.2.4",
+    "pyyaml>=6.0.3",
+    "uvicorn>=0.30",
+]
 
 [dependency-groups]
 dev = [
@@ -24,3 +34,4 @@ pythonpath = ["."]
 
 [tool.ruff]
 line-length = 100
+extend-exclude = ["vendor"]
