@@ -34,3 +34,4 @@ pythonpath = ["."]
 
 [tool.ruff]
 line-length = 100
+extend-exclude = ["vendor"]

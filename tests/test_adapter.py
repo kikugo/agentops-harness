@@ -17,8 +17,9 @@ from target.adapter import (
 KEY = "test-key"
 C1_REPLY = {
     "answer": "Le préavis est de 2 mois.\n\nSources :\n- article L1234-1",
-    "citations": [{"num": "L1234-1", "url": "https://x", "source": "code",
-                   "date_debut_vigueur": "2008-05-01"}],  # fmt: skip
+    "citations": [
+        {"num": "L1234-1", "url": "https://x", "source": "code", "date_debut_vigueur": "2008-05-01"}
+    ],
     "tool_calls": [{"name": "preavis", "args": {"anciennete_mois": 36}, "nums": ["L1234-1"]}],
     "trace_id": "ab" * 16,
 }
@@ -74,8 +75,9 @@ def test_history_becomes_labelled_transcript_in_order():
     q, dropped = flatten(msgs(("system", "Sois bref."), ("user", "Bonjour"),
                               ("assistant", "Bonjour !"), ("user", "Quel préavis ?")))  # fmt: skip
     assert dropped == 0
-    assert q == "\n".join([HISTORY_HEADER, "Système : Sois bref.", "Utilisateur : Bonjour",
-                           "Assistant : Bonjour !", "", QUESTION_HEADER, "Quel préavis ?"])  # fmt: skip
+    expected = [HISTORY_HEADER, "Système : Sois bref.", "Utilisateur : Bonjour",
+                "Assistant : Bonjour !", "", QUESTION_HEADER, "Quel préavis ?"]  # fmt: skip
+    assert q.split("\n") == expected
 
 
 def test_oldest_turns_dropped_to_fit_limit():

@@ -87,8 +87,9 @@ def completion(model: str, answer: str, extra: dict) -> dict:
         "object": "chat.completion",
         "created": int(time.time()),
         "model": model,
-        "choices": [{"index": 0, "message": {"role": "assistant", "content": answer},
-                     "finish_reason": "stop"}],  # fmt: skip
+        "choices": [
+            {"index": 0, "message": {"role": "assistant", "content": answer}, "finish_reason": "stop"}
+        ],
         # C1's /ask doesn't report token usage
         "usage": {"prompt_tokens": 0, "completion_tokens": 0, "total_tokens": 0},
         "c1": extra,
@@ -122,9 +123,9 @@ def create_app(
 
     @app.middleware("http")
     async def check_key(request: Request, call_next):
-        if request.url.path.startswith("/v1/") and api_key:
-            if request.headers.get("authorization") != f"Bearer {api_key}":
-                return openai_error(401, "invalid API key", "authentication_error")
+        authorised = request.headers.get("authorization") == f"Bearer {api_key}"
+        if request.url.path.startswith("/v1/") and api_key and not authorised:
+            return openai_error(401, "invalid API key", "authentication_error")
         return await call_next(request)
 
     @app.get("/health")
