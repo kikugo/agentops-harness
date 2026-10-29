@@ -29,10 +29,29 @@ def compose_config(tmp_path, *args) -> dict:
     return json.loads(out.stdout)
 
 
+LANGFUSE = {"langfuse-web", "langfuse-worker", "clickhouse", "minio", "redis", "postgres"}
+
+
 def test_default_services_read_the_demo_index(tmp_path):
     cfg = compose_config(tmp_path)
-    assert set(cfg["services"]) == {"c1", "adapter"}
+    assert set(cfg["services"]) == {"c1", "adapter"} | LANGFUSE
     assert cfg["services"]["c1"]["environment"]["SEARCH_INDEX"] == "articles-v1"
+
+
+def test_langfuse_images_are_pinned(tmp_path):
+    cfg = compose_config(tmp_path)
+    for name in ("langfuse-web", "langfuse-worker"):
+        assert cfg["services"][name]["image"].endswith(":4.71.0")
+
+
+def test_agent_and_adapter_export_traces_to_local_langfuse(tmp_path):
+    cfg = compose_config(tmp_path, "--profile", "redteam")
+    for name in ("c1", "c1-redteam", "adapter"):
+        env = cfg["services"][name]["environment"]
+        assert env["OTEL_EXPORTER_OTLP_TRACES_ENDPOINT"] == (
+            "http://langfuse-web:3000/api/public/otel/v1/traces"
+        )
+        assert env["OTEL_SERVICE_NAME"] == name
 
 
 def test_redteam_profile_reads_only_the_redteam_index(tmp_path):
