@@ -6,6 +6,21 @@ Red-team, guard and trace harness for my [Droit du Travail Copilot](https://gith
 
 Every attack in this repo targets systems I own: my own C1 agent, running locally or in my own Azure subscription, and my own Azure AI Search service. The poisoned test articles live in a separate index named `articles-redteam`; the demo index never contains them. Don't point this harness at a system you don't own or aren't authorised to test.
 
+## How it runs
+
+The C1 agent is a git submodule pinned to one commit (`vendor/droit-du-travail-copilot`). `target/adapter.py` puts an OpenAI-compatible `/v1/chat/completions` in front of its `POST /ask`, so garak and PyRIT can call it like any chat model; the `model` field picks the demo target (`c1`) or the red-team one (`c1-redteam`).
+
+```bash
+cp .env.example .env              # fill in the C1 endpoints and the service principal
+./scripts/langfuse_env.sh         # local Langfuse secrets and project keys, written to .env
+docker compose up -d --build      # Langfuse, C1 and the adapter, all on 127.0.0.1
+uv run python scripts/check_trace.py
+```
+
+## Tracing
+
+Every request is one trace in a self-hosted Langfuse (its official docker compose, pinned to v4.71.0, UI on `http://localhost:3000`). The adapter opens the root span and passes the attack id and campaign from the `X-Attack-Id` and `X-Campaign` headers to C1 as W3C baggage, so every span below carries them: the C1 request, the agent run, each model call, each tool call and each Azure AI Search query. C1's own code is unchanged: `target/c1_otel.py` sets up the exporter before C1 starts, and without `OTEL_EXPORTER_OTLP_TRACES_ENDPOINT` it does nothing, so C1's Application Insights setup for its demo is unaffected. `scripts/check_trace.py` sends one question and checks the trace in Langfuse (`results/trace_check.json`).
+
 ## Status
 
-Phase 0 (target and test index) in progress. Results tables will be generated from `results/*.json`.
+Phase 1 (tracing) in progress. Results tables will be generated from `results/*.json`.
