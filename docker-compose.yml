@@ -2,10 +2,23 @@
 # c1 reads the demo index; c1-redteam (profile "redteam") reads articles-redteam,
 # the only index that holds the poisoned test articles.
 
+include:
+  - path: langfuse/docker-compose.yml  # official Langfuse v4.71.0 stack, secrets from .env
+    project_directory: .
+
+x-otel: &otel
+  # Traces go to the local Langfuse; unset the endpoint and nothing is exported.
+  OTEL_EXPORTER_OTLP_TRACES_ENDPOINT: ${OTEL_EXPORTER_OTLP_TRACES_ENDPOINT-http://langfuse-web:3000/api/public/otel/v1/traces}
+  OTEL_EXPORTER_OTLP_TRACES_PROTOCOL: http/protobuf
+  OTEL_EXPORTER_OTLP_TRACES_HEADERS: ${OTEL_EXPORTER_OTLP_TRACES_HEADERS:-}
+  OTEL_PYTHON_FASTAPI_EXCLUDED_URLS: health  # healthchecks every 10 s aren't traces
+
 x-c1: &c1
   build:
     context: ./vendor/droit-du-travail-copilot
     dockerfile: ../../target/Dockerfile.c1
+    additional_contexts:
+      harness: .
   image: agentops/c1:5378d5e
   environment: &c1-env
     AZURE_SEARCH_ENDPOINT: ${AZURE_SEARCH_ENDPOINT:?set in .env}
@@ -17,6 +30,10 @@ x-c1: &c1
     AZURE_CLIENT_ID: ${AZURE_CLIENT_ID:?set in .env}
     AZURE_TENANT_ID: ${AZURE_TENANT_ID:?set in .env}
     AZURE_CLIENT_SECRET: ${AZURE_CLIENT_SECRET:?set in .env}
+    <<: *otel
+    OTEL_SERVICE_NAME: c1
+    # prompts, answers and tool arguments in spans; they only go to the local Langfuse
+    ENABLE_SENSITIVE_DATA: "true"
   volumes:
     - ${C1_DATA_DIR:-../droit-du-travail-copilot/data}/articles.jsonl:/app/data/articles.jsonl:ro
   healthcheck:
@@ -39,6 +56,7 @@ services:
     profiles: ["redteam"]
     environment:
       <<: *c1-env
+      OTEL_SERVICE_NAME: c1-redteam
       SEARCH_INDEX: articles-redteam
     ports:
       - "127.0.0.1:8002:8000"
@@ -50,6 +68,8 @@ services:
       ADAPTER_API_KEY: ${ADAPTER_API_KEY:?set in .env}
       C1_URL: http://c1:8000
       C1_REDTEAM_URL: ${C1_REDTEAM_URL:-}
+      <<: *otel
+      OTEL_SERVICE_NAME: adapter
     ports:
       - "127.0.0.1:8080:8080"
     depends_on:

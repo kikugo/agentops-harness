@@ -1,0 +1,6 @@
+# Installed on top of C1's own lock in target/Dockerfile.c1; versions match its opentelemetry-sdk 1.45.1
+opentelemetry-exporter-otlp-proto-http==1.45.1
+opentelemetry-instrumentation-fastapi==0.66b1
+opentelemetry-instrumentation-httpx==0.66b1
+opentelemetry-processor-baggage==0.66b1
+azure-core-tracing-opentelemetry==1.0.0b13

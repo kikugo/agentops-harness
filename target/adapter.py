@@ -13,7 +13,10 @@ from contextlib import asynccontextmanager
 import httpx
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
+from opentelemetry import propagate, trace
 from pydantic import BaseModel
+
+from target import tracing
 
 MAX_QUESTION = 2000  # C1's AskRequest.question max_length
 MIN_QUESTION = 3
@@ -21,6 +24,8 @@ ROLE_LABELS = {"user": "Utilisateur", "assistant": "Assistant", "system": "Syst�
                "developer": "Système"}  # fmt: skip
 HISTORY_HEADER = "Conversation précédente :"
 QUESTION_HEADER = "Question :"
+
+tracer = trace.get_tracer("adapter")  # proxy: follows whichever provider tracing.setup installs
 
 
 class ChatMessage(BaseModel):
@@ -144,33 +149,49 @@ def create_app(
         question, dropped = flatten(body.messages)
         if len(question) < MIN_QUESTION:
             return openai_error(400, f"the last user message needs at least {MIN_QUESTION} chars")
-        start = time.perf_counter()
-        try:
-            resp = await request.app.state.http.post(
-                f"{targets[body.model]}/ask", json={"question": question}
-            )
-        except httpx.HTTPError as err:
-            return openai_error(502, f"C1 unreachable: {type(err).__name__}", "api_error")
-        latency_ms = round((time.perf_counter() - start) * 1000)
-        if resp.status_code == 422:
-            return openai_error(400, f"C1 rejected the question: {resp.text[:500]}")
-        if resp.status_code != 200:
-            return openai_error(502, f"C1 returned {resp.status_code}", "api_error")
-        data = resp.json()
+        attack_id = request.headers.get("x-attack-id", "")
+        campaign = request.headers.get("x-campaign", "")
+        attrs = tracing.attack_attributes(attack_id, campaign, body.model)
+        # Root span of the Langfuse trace; its attributes travel to C1 as baggage.
+        with tracing.baggage_scope(attrs), tracer.start_as_current_span(
+            attrs["langfuse.trace.name"], kind=trace.SpanKind.SERVER, attributes=attrs
+        ) as span:
+            span.set_attribute("langfuse.trace.tags", [t for t in (campaign, body.model) if t])
+            span.set_attribute("langfuse.observation.input", question)
+            headers: dict[str, str] = {}
+            propagate.inject(headers)
+            start = time.perf_counter()
+            try:
+                resp = await request.app.state.http.post(
+                    f"{targets[body.model]}/ask", json={"question": question}, headers=headers
+                )
+            except httpx.HTTPError as err:
+                span.set_status(trace.StatusCode.ERROR, type(err).__name__)
+                return openai_error(502, f"C1 unreachable: {type(err).__name__}", "api_error")
+            latency_ms = round((time.perf_counter() - start) * 1000)
+            if resp.status_code == 422:
+                span.set_status(trace.StatusCode.ERROR, "C1 422")
+                return openai_error(400, f"C1 rejected the question: {resp.text[:500]}")
+            if resp.status_code != 200:
+                span.set_status(trace.StatusCode.ERROR, f"C1 {resp.status_code}")
+                return openai_error(502, f"C1 returned {resp.status_code}", "api_error")
+            data = resp.json()
+            span.set_attribute("langfuse.observation.output", data.get("answer", ""))
         extra = {
             "citations": data.get("citations", []),
             "tool_calls": data.get("tool_calls", []),
-            "trace_id": data.get("trace_id", ""),
+            "trace_id": data.get("trace_id", ""),  # same id as the adapter's trace when traced
             "latency_ms": latency_ms,
             "question_sent": question,
             "turns_dropped": dropped,
             "question_truncated": question_truncated(body.messages),
-            "attack_id": request.headers.get("x-attack-id", ""),
-            "campaign": request.headers.get("x-campaign", ""),
+            "attack_id": attack_id,
+            "campaign": campaign,
         }
         return completion(body.model, data.get("answer", ""), extra)
 
     return app
 
 
+tracing.setup("adapter")
 app = create_app()

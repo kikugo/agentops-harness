@@ -1,0 +1,51 @@
+{
+  "checked_at": "2026-10-29T14:27:48+00:00",
+  "attack_id": "trace-smoke-1793284063",
+  "campaign": "phase1-smoke",
+  "trace_id": "62df3fbe965045ccc9522eedde452490",
+  "tools_called": [
+    "search_code",
+    "search_code"
+  ],
+  "passed": true,
+  "missing": [],
+  "spans_without_attack_tags": [],
+  "span_counts": {
+    "adapter root": 1,
+    "C1 request": 1,
+    "agent run": 1,
+    "generation": 2,
+    "tool call": 2,
+    "retriever": 2
+  },
+  "observations": [
+    "AGENT invoke_agent copilot",
+    "GENERATION chat gpt-5.4-mini",
+    "GENERATION chat gpt-5.4-mini",
+    "RETRIEVER _SearchClientOperationsMixin.search",
+    "RETRIEVER _SearchClientOperationsMixin.search",
+    "SPAN GET",
+    "SPAN GET",
+    "SPAN POST",
+    "SPAN POST",
+    "SPAN POST",
+    "SPAN POST",
+    "SPAN POST",
+    "SPAN POST",
+    "SPAN POST",
+    "SPAN POST /ask",
+    "SPAN POST /ask http receive",
+    "SPAN POST /ask http send",
+    "SPAN POST /ask http send",
+    "SPAN POST /v1/chat/completions",
+    "SPAN _SearchClientOperationsMixin._search_post",
+    "SPAN _SearchClientOperationsMixin._search_post",
+    "SPAN ask",
+    "SPAN attack trace-smoke-1793284063",
+    "SPAN fastapi.dependencies",
+    "SPAN fastapi.endpoint",
+    "SPAN fastapi.serialization",
+    "TOOL search_code",
+    "TOOL search_code"
+  ]
+}
