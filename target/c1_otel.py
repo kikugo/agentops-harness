@@ -10,6 +10,43 @@ import os
 from target import tracing
 
 
+def patch_app_content_filter() -> None:
+    """Handle upstream content filter exceptions from Azure OpenAI as safe refusals."""
+    try:
+        from copilot.api import app
+        from fastapi import Request
+        from fastapi.responses import JSONResponse
+
+        @app.exception_handler(Exception)
+        async def handle_content_filter(request: Request, exc: Exception):
+            exc_str = str(exc)
+            exc_type = type(exc).__name__
+            if (
+                "contentfilter" in exc_type.lower()
+                or "content_filter" in exc_str.lower()
+                or "content management policy" in exc_str.lower()
+                or "responsibleaipolicyviolation" in exc_str.lower()
+            ):
+                return JSONResponse(
+                    status_code=200,
+                    content={
+                        "question": "",
+                        "answer": "Demande refusée : la requête déclenche les filtres de sécurité de contenu.",
+                        "citations": [],
+                        "tool_calls": [],
+                        "trace_id": "",
+                    },
+                )
+            from fastapi.exception_handlers import http_exception_handler
+            from starlette.exceptions import HTTPException as StarletteHTTPException
+
+            if isinstance(exc, StarletteHTTPException):
+                return await http_exception_handler(request, exc)
+            return JSONResponse(status_code=500, content={"detail": "Internal Server Error"})
+    except ImportError:
+        pass
+
+
 def instrument() -> bool:
     if not tracing.setup(os.environ.get("OTEL_SERVICE_NAME", "c1")):
         return False
@@ -32,7 +69,10 @@ def main() -> None:
     import uvicorn
 
     instrument()
-    uvicorn.run("copilot.api:app", host="0.0.0.0", port=8000)
+    patch_app_content_filter()
+    from copilot.api import app
+
+    uvicorn.run(app, host="0.0.0.0", port=8000)
 
 
 if __name__ == "__main__":

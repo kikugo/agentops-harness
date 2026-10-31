@@ -1,10 +1,10 @@
 {
-  "checked_at": "2026-10-29T14:27:48+00:00",
-  "attack_id": "trace-smoke-1793284063",
+  "checked_at": "2026-10-31T07:51:26+00:00",
+  "attack_id": "trace-smoke-1793433077",
   "campaign": "phase1-smoke",
-  "trace_id": "62df3fbe965045ccc9522eedde452490",
+  "trace_id": "284ab6c49553ceeb8ee7f96bd756b15e",
   "tools_called": [
-    "search_code",
+    "get_article",
     "search_code"
   ],
   "passed": true,
@@ -16,20 +16,14 @@
     "agent run": 1,
     "generation": 2,
     "tool call": 2,
-    "retriever": 2
+    "retriever": 1
   },
   "observations": [
     "AGENT invoke_agent copilot",
     "GENERATION chat gpt-5.4-mini",
     "GENERATION chat gpt-5.4-mini",
     "RETRIEVER _SearchClientOperationsMixin.search",
-    "RETRIEVER _SearchClientOperationsMixin.search",
     "SPAN GET",
-    "SPAN GET",
-    "SPAN POST",
-    "SPAN POST",
-    "SPAN POST",
-    "SPAN POST",
     "SPAN POST",
     "SPAN POST",
     "SPAN POST",
@@ -39,13 +33,12 @@
     "SPAN POST /ask http send",
     "SPAN POST /v1/chat/completions",
     "SPAN _SearchClientOperationsMixin._search_post",
-    "SPAN _SearchClientOperationsMixin._search_post",
     "SPAN ask",
-    "SPAN attack trace-smoke-1793284063",
+    "SPAN attack trace-smoke-1793433077",
     "SPAN fastapi.dependencies",
     "SPAN fastapi.endpoint",
     "SPAN fastapi.serialization",
-    "TOOL search_code",
+    "TOOL get_article",
     "TOOL search_code"
   ]
 }

@@ -35,8 +35,10 @@ mkdir -p results/garak
 DEFAULT_SPEC="probes.dan,probes.promptinject,probes.leakreplay"
 SPEC="${1:-${DEFAULT_SPEC}}"
 
+GENERATIONS="${GENERATIONS:-1}"
+
 echo "==> Target: C1 via OpenAI-compatible adapter (127.0.0.1:8080/v1)"
-echo "==> Running garak with spec: ${SPEC}"
+echo "==> Running garak with spec: ${SPEC} (generations: ${GENERATIONS})"
 
 # Detect how to invoke garak (garak 0.17.1 runs isolated to avoid openai<3 conflict)
 if command -v uvx &> /dev/null; then
@@ -53,6 +55,7 @@ fi
 ${GARAK_BIN} --config garak.yaml \
              --target_type openai.OpenAICompatible \
              --target_name c1 \
+             --generations "${GENERATIONS}" \
              --spec "${SPEC}" \
              --report_prefix "${REPO_ROOT}/results/garak/garak_baseline"
 
