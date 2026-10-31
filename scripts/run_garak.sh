@@ -51,10 +51,10 @@ else
 fi
 
 ${GARAK_BIN} --config garak.yaml \
-             -m openai.OpenAICompatible \
-             -n c1 \
+             --target_type openai.OpenAICompatible \
+             --target_name c1 \
              --spec "${SPEC}" \
-             --report_prefix "results/garak/garak_baseline"
+             --report_prefix "${REPO_ROOT}/results/garak/garak_baseline"
 
 echo "==> Generating summary from latest report in results/garak/..."
 uv run python scripts/summarize_garak.py results/garak --output results/garak_summary.json
