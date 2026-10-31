@@ -5,10 +5,13 @@ set -euo pipefail
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "${REPO_ROOT}"
 
-# Verify adapter endpoint is reachable
-if ! curl -sf http://127.0.0.1:8080/health > /dev/null 2>&1; then
-    echo "Error: adapter is not responding on http://127.0.0.1:8080/health"
-    echo "Make sure containers are up: docker compose up -d"
+# Verify adapter endpoint is reachable and returning adapter health payload
+HEALTH_RESP="$(curl -sf http://127.0.0.1:8080/health 2>/dev/null || true)"
+if [[ "${HEALTH_RESP}" != *'"status":"ok"'* && "${HEALTH_RESP}" != *'"status": "ok"'* ]]; then
+    echo "Error: adapter is not responding on http://127.0.0.1:8080/health with expected status."
+    echo "Current response: ${HEALTH_RESP:0:100}"
+    echo "Make sure the adapter container is running on port 8080."
+    echo "If port 8080 is occupied by another service (e.g. reel-history), stop it first."
     exit 1
 fi
 
@@ -38,10 +41,19 @@ echo "==> Running garak with spec: ${SPEC}"
 # Detect how to invoke garak
 if command -v garak &> /dev/null; then
     GARAK_BIN="garak"
-elif command -v uv &> /dev/null; then
+elif [ -x ".venv/bin/garak" ]; then
     GARAK_BIN="uv run garak"
-else
+elif command -v uvx &> /dev/null; then
+    GARAK_BIN="uvx garak"
+elif command -v uv &> /dev/null; then
+    GARAK_BIN="uv tool run garak"
+elif python -c "import garak" &> /dev/null; then
     GARAK_BIN="python -m garak"
+else
+    echo "Error: garak is not installed."
+    echo "Install it with: uv add --dev garak"
+    echo "Or run via: uvx garak"
+    exit 1
 fi
 
 ${GARAK_BIN} --config garak.yaml \
