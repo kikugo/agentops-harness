@@ -38,21 +38,15 @@ SPEC="${1:-${DEFAULT_SPEC}}"
 echo "==> Target: C1 via OpenAI-compatible adapter (127.0.0.1:8080/v1)"
 echo "==> Running garak with spec: ${SPEC}"
 
-# Detect how to invoke garak
-if command -v garak &> /dev/null; then
+# Detect how to invoke garak (garak 0.17.1 runs isolated to avoid openai<3 conflict)
+if command -v uvx &> /dev/null; then
+    GARAK_BIN="uvx --from garak==0.17.1 garak"
+elif command -v garak &> /dev/null; then
     GARAK_BIN="garak"
 elif [ -x ".venv/bin/garak" ]; then
     GARAK_BIN="uv run garak"
-elif command -v uvx &> /dev/null; then
-    GARAK_BIN="uvx garak"
-elif command -v uv &> /dev/null; then
-    GARAK_BIN="uv tool run garak"
-elif python -c "import garak" &> /dev/null; then
-    GARAK_BIN="python -m garak"
 else
-    echo "Error: garak is not installed."
-    echo "Install it with: uv add --dev garak"
-    echo "Or run via: uvx garak"
+    echo "Error: uvx or garak 0.17.1 is required to run garak without dependency conflicts."
     exit 1
 fi
 
