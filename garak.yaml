@@ -1,0 +1,19 @@
+# Target configuration for C1 OpenAI-compatible adapter
+# Adapter endpoint: http://127.0.0.1:8080/v1
+# Key passed via OPENAICOMPATIBLE_API_KEY environment variable
+
+plugins:
+  generators:
+    openai:
+      OpenAICompatible:
+        uri: "http://127.0.0.1:8080/v1"
+        model: "c1"
+        suppressed_params:
+          - n
+          - frequency_penalty
+          - presence_penalty
+          - stop
+
+reporting:
+  confidence_interval_method: "bootstrap"
+  bootstrap_confidence_level: 0.95

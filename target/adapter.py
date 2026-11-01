@@ -176,6 +176,10 @@ def create_app(
                 span.set_status(trace.StatusCode.ERROR, f"C1 {resp.status_code}")
                 return openai_error(502, f"C1 returned {resp.status_code}", "api_error")
             data = resp.json()
+            if data.get("content_filtered"):
+                span.set_attribute("c1.content_filtered", True)
+                if data.get("refusal_source"):
+                    span.set_attribute("c1.refusal_source", data["refusal_source"])
             span.set_attribute("langfuse.observation.output", data.get("answer", ""))
         extra = {
             "citations": data.get("citations", []),
@@ -187,6 +191,8 @@ def create_app(
             "question_truncated": question_truncated(body.messages),
             "attack_id": attack_id,
             "campaign": campaign,
+            "content_filtered": data.get("content_filtered", False),
+            "refusal_source": data.get("refusal_source"),
         }
         return completion(body.model, data.get("answer", ""), extra)
 

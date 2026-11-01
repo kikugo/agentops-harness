@@ -18,6 +18,7 @@ wheels/
 data/*
 !data/.gitkeep
 results/raw/
+results/garak/
 
 # OS / editors
 .DS_Store

@@ -5,9 +5,55 @@ only installs its own TracerProvider when none exists). Without OTEL_EXPORTER_OT
 nothing is instrumented and C1 runs exactly as it does on its own.
 """
 
+import logging
 import os
 
 from target import tracing
+
+logger = logging.getLogger("c1")
+
+
+def patch_app_content_filter() -> None:
+    """Handle upstream content filter exceptions from Azure OpenAI as safe refusals."""
+    try:
+        from copilot.api import app
+        from fastapi import Request
+        from fastapi.responses import JSONResponse
+
+        @app.exception_handler(Exception)
+        async def handle_content_filter(request: Request, exc: Exception):
+            exc_str = str(exc)
+            exc_type = type(exc).__name__
+            if (
+                "contentfilter" in exc_type.lower()
+                or "content_filter" in exc_str.lower()
+                or "content management policy" in exc_str.lower()
+                or "responsibleaipolicyviolation" in exc_str.lower()
+            ):
+                return JSONResponse(
+                    status_code=200,
+                    content={
+                        "question": "",
+                        "answer": "Demande refusée : la requête déclenche les filtres de sécurité de contenu.",
+                        "citations": [],
+                        "tool_calls": [],
+                        "trace_id": "",
+                        "content_filtered": True,
+                        "refusal_source": "azure_content_filter",
+                    },
+                )
+            logger.exception("Unhandled error in C1: %s (%s)", exc_type, exc_str)
+            from fastapi.exception_handlers import http_exception_handler
+            from starlette.exceptions import HTTPException as StarletteHTTPException
+
+            if isinstance(exc, StarletteHTTPException):
+                return await http_exception_handler(request, exc)
+            return JSONResponse(
+                status_code=500,
+                content={"detail": f"{exc_type}: {exc_str[:500]}" if exc_str else exc_type},
+            )
+    except ImportError:
+        pass
 
 
 def instrument() -> bool:
@@ -32,7 +78,10 @@ def main() -> None:
     import uvicorn
 
     instrument()
-    uvicorn.run("copilot.api:app", host="0.0.0.0", port=8000)
+    patch_app_content_filter()
+    from copilot.api import app
+
+    uvicorn.run(app, host="0.0.0.0", port=8000)
 
 
 if __name__ == "__main__":
