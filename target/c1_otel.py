@@ -5,9 +5,12 @@ only installs its own TracerProvider when none exists). Without OTEL_EXPORTER_OT
 nothing is instrumented and C1 runs exactly as it does on its own.
 """
 
+import logging
 import os
 
 from target import tracing
+
+logger = logging.getLogger("c1")
 
 
 def patch_app_content_filter() -> None:
@@ -35,14 +38,20 @@ def patch_app_content_filter() -> None:
                         "citations": [],
                         "tool_calls": [],
                         "trace_id": "",
+                        "content_filtered": True,
+                        "refusal_source": "azure_content_filter",
                     },
                 )
+            logger.exception("Unhandled error in C1: %s (%s)", exc_type, exc_str)
             from fastapi.exception_handlers import http_exception_handler
             from starlette.exceptions import HTTPException as StarletteHTTPException
 
             if isinstance(exc, StarletteHTTPException):
                 return await http_exception_handler(request, exc)
-            return JSONResponse(status_code=500, content={"detail": "Internal Server Error"})
+            return JSONResponse(
+                status_code=500,
+                content={"detail": f"{exc_type}: {exc_str[:500]}" if exc_str else exc_type},
+            )
     except ImportError:
         pass
 
