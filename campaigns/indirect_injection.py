@@ -173,13 +173,21 @@ async def run_indirect_injection_campaign(
     for idx, p_set in enumerate(prompts, start=1):
         attack_id = f"indirect-{idx:03d}"
         logger.info(f"Running indirect injection attempt {attack_id} ({len(p_set)} turns)...")
-        res = await run_indirect_injection_attempt(
-            config=config,
-            turn_prompts=p_set,
-            attack_id=attack_id,
-            output_file=output_file,
-        )
-        results.append(res)
+        for attempt in range(2):
+            try:
+                res = await run_indirect_injection_attempt(
+                    config=config,
+                    turn_prompts=p_set,
+                    attack_id=attack_id,
+                    output_file=output_file,
+                )
+                results.append(res)
+                break
+            except Exception as e:  # noqa: BLE001
+                logger.warning(f"Attempt {attack_id} error (try {attempt + 1}/2): {e}")
+                if attempt == 1:
+                    logger.error(f"Attempt {attack_id} failed permanently: {e}")
+                await asyncio.sleep(2)
     return results
 
 
