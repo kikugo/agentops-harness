@@ -44,11 +44,12 @@ class CampaignConfig:
             or adapter_url
         )
         judge_endpoint = _normalize_azure_endpoint(judge_endpoint)
+        is_azure_judge = "azure" in judge_endpoint.lower()
         judge_api_key = (
             os.getenv("JUDGE_API_KEY")
             or os.getenv("OPENROUTER_API_KEY")
             or os.getenv("GROQ_API_KEY")
-            or adapter_api_key
+            or ("" if is_azure_judge else adapter_api_key)
         )
         judge_model = os.getenv("JUDGE_MODEL") or os.getenv("CHAT_DEPLOYMENT", "c1")
 
@@ -59,11 +60,12 @@ class CampaignConfig:
             or adapter_url
         )
         attacker_endpoint = _normalize_azure_endpoint(attacker_endpoint)
+        is_azure_attacker = "azure" in attacker_endpoint.lower()
         attacker_api_key = (
             os.getenv("ATTACKER_API_KEY")
             or os.getenv("OPENROUTER_API_KEY")
             or os.getenv("GROQ_API_KEY")
-            or adapter_api_key
+            or ("" if is_azure_attacker else adapter_api_key)
         )
         attacker_model = os.getenv("ATTACKER_MODEL") or os.getenv("CHAT_DEPLOYMENT", "c1")
 

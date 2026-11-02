@@ -64,10 +64,13 @@ def create_target(
 def create_judge_target(config: CampaignConfig) -> OpenAIChatTarget:
     """Create an OpenAIChatTarget pointing to the judge LLM."""
     init_memory(config.memory_db_path)
+    kwargs = {}
+    if config.judge_api_key:
+        kwargs["api_key"] = config.judge_api_key
     return OpenAIChatTarget(
         model_name=config.judge_model,
         endpoint=config.judge_endpoint,
-        api_key=config.judge_api_key or "judge-key",
+        **kwargs,
     )
 
 
