@@ -67,7 +67,7 @@ services:
     environment:
       ADAPTER_API_KEY: ${ADAPTER_API_KEY:?set in .env}
       C1_URL: http://c1:8000
-      C1_REDTEAM_URL: ${C1_REDTEAM_URL:-}
+      C1_REDTEAM_URL: ${C1_REDTEAM_URL:-http://c1-redteam:8000}
       <<: *otel
       OTEL_SERVICE_NAME: adapter
     ports:
