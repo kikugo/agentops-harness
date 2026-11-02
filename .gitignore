@@ -19,6 +19,7 @@ data/*
 !data/.gitkeep
 results/raw/
 results/garak/
+results/pyrit/
 
 # OS / editors
 .DS_Store
