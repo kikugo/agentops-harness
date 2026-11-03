@@ -134,8 +134,12 @@ async def execute_conversation(
         "X-Attack-Id": item.id,
         "X-Campaign": f"suite-{item.owasp_category.lower()}",
     }
+    if config.guarded:
+        headers["X-Guardrails"] = "true"
     if config.adapter_api_key:
         headers["Authorization"] = f"Bearer {config.adapter_api_key}"
+
+    target_model = f"{item.target_model}-guarded" if config.guarded else item.target_model
 
     close_client = False
     if custom_requester is None and client is None:
@@ -147,11 +151,11 @@ async def execute_conversation(
             messages.append({"role": "user", "content": prompt})
 
             if custom_requester is not None:
-                assistant_content = await custom_requester(item.target_model, messages, headers)
+                assistant_content = await custom_requester(target_model, messages, headers)
             else:
                 assert client is not None
                 payload = {
-                    "model": item.target_model,
+                    "model": target_model,
                     "messages": messages,
                     "temperature": 0.0,
                 }

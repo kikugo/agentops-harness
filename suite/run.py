@@ -71,6 +71,11 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         help="Only run the 30-attack smoke subset (for CI gate testing)",
     )
     parser.add_argument(
+        "--guarded",
+        action="store_true",
+        help="Run attacks against guarded model target (e.g. c1-guarded)",
+    )
+    parser.add_argument(
         "--category",
         type=str,
         default=None,
@@ -87,7 +92,9 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
 
 def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv)
-    config = SuiteConfig.from_env(suite_path=args.suite, results_path=args.output)
+    config = SuiteConfig.from_env(
+        suite_path=args.suite, results_path=args.output, guarded=args.guarded
+    )
 
     try:
         summary = asyncio.run(

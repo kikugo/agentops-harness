@@ -11,11 +11,18 @@ import uuid
 from contextlib import asynccontextmanager
 
 import httpx
+from dotenv import load_dotenv
 from fastapi import FastAPI, Request
+
+load_dotenv()
 from fastapi.responses import JSONResponse
 from opentelemetry import propagate, trace
 from pydantic import BaseModel
 
+from guardrails.input_rails import check_jailbreak, check_topic
+from guardrails.output_rails import verify_citation_grounding
+from guardrails.pipeline import GuardrailPipeline
+from guardrails.retrieval_rails import sanitize_search_results
 from target import tracing
 
 MAX_QUESTION = 2000  # C1's AskRequest.question max_length
@@ -103,9 +110,15 @@ def completion(model: str, answer: str, extra: dict) -> dict:
 
 def targets_from_env() -> dict[str, str]:
     """Model name -> C1 base URL."""
-    targets = {"c1": os.environ.get("C1_URL", "http://c1:8000")}
-    if os.environ.get("C1_REDTEAM_URL"):
-        targets["c1-redteam"] = os.environ["C1_REDTEAM_URL"]
+    c1_base = os.environ.get("C1_URL") or "http://127.0.0.1:8001"
+    targets = {
+        "c1": c1_base,
+        "c1-guarded": c1_base,
+    }
+    redteam_base = os.environ.get("C1_REDTEAM_URL") or "http://127.0.0.1:8002"
+    if redteam_base:
+        targets["c1-redteam"] = redteam_base
+        targets["c1-redteam-guarded"] = redteam_base
     return targets
 
 
@@ -121,6 +134,7 @@ def create_app(
     @asynccontextmanager
     async def lifespan(app: FastAPI):
         app.state.http = httpx.AsyncClient(transport=transport, timeout=timeout)
+        app.state.pipeline = GuardrailPipeline()
         yield
         await app.state.http.aclose()
 
@@ -153,6 +167,52 @@ def create_app(
         campaign = request.headers.get("x-campaign", "")
         attrs = tracing.attack_attributes(attack_id, campaign, body.model)
         # Root span of the Langfuse trace; its attributes travel to C1 as baggage.
+        is_guarded = (
+            "guarded" in body.model
+            or request.headers.get("x-guardrails", "").lower() in ("true", "1")
+            or os.environ.get("ENABLE_GUARDRAILS", "").lower() in ("true", "1")
+        )
+
+        # 1. Input Guardrails
+        if is_guarded:
+            is_jb, jb_reply = check_jailbreak(question)
+            if is_jb:
+                extra = {
+                    "citations": [],
+                    "tool_calls": [],
+                    "trace_id": "",
+                    "latency_ms": 2,
+                    "question_sent": question,
+                    "turns_dropped": dropped,
+                    "question_truncated": False,
+                    "attack_id": attack_id,
+                    "campaign": campaign,
+                    "content_filtered": True,
+                    "refusal_source": "guardrail_jailbreak",
+                    "guardrails_applied": True,
+                    "rails_triggered": ["input.jailbreak"],
+                }
+                return completion(body.model, jb_reply, extra)
+
+            is_topic, topic_reply = check_topic(question)
+            if is_topic:
+                extra = {
+                    "citations": [],
+                    "tool_calls": [],
+                    "trace_id": "",
+                    "latency_ms": 2,
+                    "question_sent": question,
+                    "turns_dropped": dropped,
+                    "question_truncated": False,
+                    "attack_id": attack_id,
+                    "campaign": campaign,
+                    "content_filtered": True,
+                    "refusal_source": "guardrail_topic",
+                    "guardrails_applied": True,
+                    "rails_triggered": ["input.topic"],
+                }
+                return completion(body.model, topic_reply, extra)
+
         with tracing.baggage_scope(attrs), tracer.start_as_current_span(
             attrs["langfuse.trace.name"], kind=trace.SpanKind.SERVER, attributes=attrs
         ) as span:
@@ -181,9 +241,35 @@ def create_app(
                 if data.get("refusal_source"):
                     span.set_attribute("c1.refusal_source", data["refusal_source"])
             span.set_attribute("langfuse.observation.output", data.get("answer", ""))
+
+        answer = data.get("answer", "")
+        citations = data.get("citations", [])
+        tool_calls = data.get("tool_calls", [])
+        rails_triggered = []
+
+        # 2. Retrieval & Output Guardrails
+        if is_guarded:
+            if citations:
+                citations = sanitize_search_results(citations)
+
+            if answer:
+                grounded_answer, is_grounded = verify_citation_grounding(
+                    answer, retrieved_citations=citations, tool_calls=tool_calls
+                )
+                if not is_grounded:
+                    rails_triggered.append("output.citation_check")
+                answer = grounded_answer
+
+                pipeline = getattr(request.app.state, "pipeline", None)
+                if pipeline and pipeline.masker:
+                    masked_answer = pipeline.masker.mask(answer)
+                    if masked_answer != answer:
+                        rails_triggered.append("output.pii_masking")
+                    answer = masked_answer
+
         extra = {
-            "citations": data.get("citations", []),
-            "tool_calls": data.get("tool_calls", []),
+            "citations": citations,
+            "tool_calls": tool_calls,
             "trace_id": data.get("trace_id", ""),  # same id as the adapter's trace when traced
             "latency_ms": latency_ms,
             "question_sent": question,
@@ -193,8 +279,10 @@ def create_app(
             "campaign": campaign,
             "content_filtered": data.get("content_filtered", False),
             "refusal_source": data.get("refusal_source"),
+            "guardrails_applied": is_guarded,
+            "rails_triggered": rails_triggered,
         }
-        return completion(body.model, data.get("answer", ""), extra)
+        return completion(body.model, answer, extra)
 
     return app
 

@@ -7,6 +7,7 @@ ENV UV_COMPILE_BYTECODE=1 UV_LINK_MODE=copy UV_PROJECT_ENVIRONMENT=/opt/venv
 COPY pyproject.toml uv.lock ./
 RUN uv sync --frozen --no-dev --no-install-project
 COPY target ./target
+COPY guardrails ./guardrails
 
 ENV PATH="/opt/venv/bin:$PATH"
 EXPOSE 8080

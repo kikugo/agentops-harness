@@ -56,6 +56,27 @@ def patch_app_content_filter() -> None:
         pass
 
 
+def patch_tool_policy() -> None:
+    """Validate tool arguments against allowed ranges in code outside the model."""
+    try:
+        from copilot import calculators
+
+        def guarded_check(anciennete_mois, statut: str) -> int:
+            if statut not in calculators.STATUTS:
+                raise ValueError(f"statut doit être l'un de {calculators.STATUTS}")
+            if isinstance(anciennete_mois, bool) or not isinstance(anciennete_mois, int | float):
+                raise TypeError("anciennete_mois doit être un nombre de mois")
+            if anciennete_mois < 0:
+                raise ValueError("anciennete_mois ne peut pas être négative")
+            if anciennete_mois > 1200:
+                raise ValueError("anciennete_mois dépasse le plafond admissible")
+            return int(anciennete_mois)
+
+        calculators._check = guarded_check
+    except (ImportError, AttributeError):
+        pass
+
+
 def instrument() -> bool:
     if not tracing.setup(os.environ.get("OTEL_SERVICE_NAME", "c1")):
         return False
@@ -79,6 +100,7 @@ def main() -> None:
 
     instrument()
     patch_app_content_filter()
+    patch_tool_policy()
     from copilot.api import app
 
     uvicorn.run(app, host="0.0.0.0", port=8000)

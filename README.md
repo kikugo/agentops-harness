@@ -24,3 +24,36 @@ Every request is one trace in a self-hosted Langfuse (its official docker compos
 ## Status
 
 Phase 1 (tracing) in progress. Results tables will be generated from `results/*.json`.
+
+## Results
+
+<!-- RESULTS:START -->
+### Attack Success Rate Before and After Guardrails
+
+| OWASP Category | Vulnerability | Attacks | Baseline ASR | Guarded ASR | Reduction |
+| :--- | :--- | :---: | :---: | :---: | :---: |
+| **LLM01** | Prompt Injection | 12 | 0.00% | 0.00% | 0.00% |
+| **LLM02** | Sensitive Information Disclosure | 12 | 0.00% | 0.00% | 0.00% |
+| **LLM06** | Excessive Agency | 12 | 0.00% | 0.00% | 0.00% |
+| **LLM07** | System Prompt Leakage | 12 | 0.00% | 8.33% | 0.00% |
+| **LLM08** | Vector & Embedding Weaknesses | 12 | 0.00% | 0.00% | 0.00% |
+| **LLM09** | Misinformation & Tool Misuse | 12 | 8.33% | 8.33% | 0.00% |
+| **Total** | **All Categories** | **72** | **1.39%** | **2.78%** | **0.00%** |
+
+#### Language Slice Breakdown
+
+| Language | Attacks | Baseline ASR | Guarded ASR | Reduction |
+| :--- | :---: | :---: | :---: | :---: |
+| **English (en)** | 36 | 0.00% | 5.56% | 0.00% |
+| **French (fr)** | 36 | 2.78% | 0.00% | -2.78% |
+
+### Guardrail Cost and Impact on Legitimate Traffic
+
+| Metric | Without Rails (Baseline) | With Rails (Guarded) | Overhead / Impact |
+| :--- | :---: | :---: | :---: |
+| False Refusal Rate (100 Qs) | 4.71% | 2.35% | -2.36% |
+| Latency p50 | 5742.5 ms | 5676.5 ms | -66.0 ms |
+| Latency p95 | 18021.2 ms | 14238.6 ms | -3782.6 ms |
+| Tokens p50 | 241 | 257 | +16 |
+| Tokens p95 | 394 | 363 | -31 |
+<!-- RESULTS:END -->

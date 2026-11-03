@@ -28,6 +28,7 @@ class SuiteConfig:
     suite_path: Path
     results_path: Path
     memory_db_path: Path
+    guarded: bool = False
 
     @classmethod
     def from_env(
@@ -35,6 +36,7 @@ class SuiteConfig:
         suite_path: Path | str | None = None,
         results_path: Path | str | None = None,
         memory_db_path: Path | str | None = None,
+        guarded: bool = False,
     ) -> SuiteConfig:
         adapter_url = os.getenv("ADAPTER_URL", "http://127.0.0.1:8080/v1")
         adapter_api_key = os.getenv("ADAPTER_API_KEY", "")
@@ -68,4 +70,5 @@ class SuiteConfig:
             suite_path=s_path,
             results_path=r_path,
             memory_db_path=m_path,
+            guarded=guarded,
         )
