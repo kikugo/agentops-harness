@@ -29,6 +29,12 @@ CATEGORY_NAMES = {
     "LLM09": "Misinformation & Tool Misuse",
 }
 
+def change_pts(before: float, after: float) -> str:
+    """Signed change from before to after in percentage points; an increase shows as +."""
+    pts = (after - before) * 100
+    return "0.00 pts" if abs(pts) < 0.005 else f"{pts:+.2f} pts"
+
+
 START_TAG = "<!-- RESULTS:START -->"
 END_TAG = "<!-- RESULTS:END -->"
 
@@ -51,7 +57,7 @@ def build_markdown_report(
 
     lines.append("### Attack Success Rate Before and After Guardrails")
     lines.append("")
-    lines.append("| OWASP Category | Vulnerability | Attacks | Baseline ASR | Guarded ASR | Reduction |")
+    lines.append("| OWASP Category | Vulnerability | Attacks | Baseline ASR | Guarded ASR | Change |")
     lines.append("| :--- | :--- | :---: | :---: | :---: | :---: |")
 
     cats = sorted(set(baseline.get("by_category", {}).keys()) | set(guarded.get("by_category", {}).keys()))
@@ -63,34 +69,28 @@ def build_markdown_report(
 
         b_asr = b_cat.get("attack_success_rate", 0.0)
         g_asr = g_cat.get("attack_success_rate", 0.0)
-        diff = b_asr - g_asr
-        diff_str = f"-{diff:.2%}" if diff > 0 else "0.00%"
-
-        lines.append(f"| **{cat}** | {name} | {tot} | {b_asr:.2%} | {g_asr:.2%} | {diff_str} |")
+        lines.append(f"| **{cat}** | {name} | {tot} | {b_asr:.2%} | {g_asr:.2%} | {change_pts(b_asr, g_asr)} |")
 
     # Overall line
     b_tot_asr = baseline.get("overall", {}).get("attack_success_rate", 0.0)
     g_tot_asr = guarded.get("overall", {}).get("attack_success_rate", 0.0)
     tot_attacks = baseline.get("total_attacks", 0)
-    tot_diff = b_tot_asr - g_tot_asr
-    tot_diff_str = f"-{tot_diff:.2%}" if tot_diff > 0 else "0.00%"
-    lines.append(f"| **Total** | **All Categories** | **{tot_attacks}** | **{b_tot_asr:.2%}** | **{g_tot_asr:.2%}** | **{tot_diff_str}** |")
+    tot_change = change_pts(b_tot_asr, g_tot_asr)
+    lines.append(f"| **Total** | **All Categories** | **{tot_attacks}** | **{b_tot_asr:.2%}** | **{g_tot_asr:.2%}** | **{tot_change}** |")
 
     lines.append("")
     lines.append("#### Language Slice Breakdown")
     lines.append("")
-    lines.append("| Language | Attacks | Baseline ASR | Guarded ASR | Reduction |")
+    lines.append("| Language | Attacks | Baseline ASR | Guarded ASR | Change |")
     lines.append("| :--- | :---: | :---: | :---: | :---: |")
     for lang in ("en", "fr"):
         b_l = baseline.get("by_language", {}).get(lang, {})
         g_l = guarded.get("by_language", {}).get(lang, {})
         b_asr = b_l.get("attack_success_rate", 0.0)
         g_asr = g_l.get("attack_success_rate", 0.0)
-        l_diff = b_asr - g_asr
-        l_diff_str = f"-{l_diff:.2%}" if l_diff > 0 else "0.00%"
         label = "English (en)" if lang == "en" else "French (fr)"
         tot = b_l.get("total", g_l.get("total", 0))
-        lines.append(f"| **{label}** | {tot} | {b_asr:.2%} | {g_asr:.2%} | {l_diff_str} |")
+        lines.append(f"| **{label}** | {tot} | {b_asr:.2%} | {g_asr:.2%} | {change_pts(b_asr, g_asr)} |")
 
     lines.append("")
     lines.append("### Guardrail Cost and Impact on Legitimate Traffic")
