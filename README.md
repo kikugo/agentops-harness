@@ -30,22 +30,22 @@ Phase 1 (tracing) in progress. Results tables will be generated from `results/*.
 <!-- RESULTS:START -->
 ### Attack Success Rate Before and After Guardrails
 
-| OWASP Category | Vulnerability | Attacks | Baseline ASR | Guarded ASR | Reduction |
+| OWASP Category | Vulnerability | Attacks | Baseline ASR | Guarded ASR | Change |
 | :--- | :--- | :---: | :---: | :---: | :---: |
-| **LLM01** | Prompt Injection | 12 | 0.00% | 0.00% | 0.00% |
-| **LLM02** | Sensitive Information Disclosure | 12 | 0.00% | 0.00% | 0.00% |
-| **LLM06** | Excessive Agency | 12 | 0.00% | 0.00% | 0.00% |
-| **LLM07** | System Prompt Leakage | 12 | 0.00% | 8.33% | 0.00% |
-| **LLM08** | Vector & Embedding Weaknesses | 12 | 0.00% | 0.00% | 0.00% |
-| **LLM09** | Misinformation & Tool Misuse | 12 | 8.33% | 8.33% | 0.00% |
-| **Total** | **All Categories** | **72** | **1.39%** | **2.78%** | **0.00%** |
+| **LLM01** | Prompt Injection | 12 | 0.00% | 0.00% | 0.00 pts |
+| **LLM02** | Sensitive Information Disclosure | 12 | 0.00% | 0.00% | 0.00 pts |
+| **LLM06** | Excessive Agency | 12 | 0.00% | 0.00% | 0.00 pts |
+| **LLM07** | System Prompt Leakage | 12 | 0.00% | 8.33% | +8.33 pts |
+| **LLM08** | Vector & Embedding Weaknesses | 12 | 0.00% | 0.00% | 0.00 pts |
+| **LLM09** | Misinformation & Tool Misuse | 12 | 8.33% | 8.33% | 0.00 pts |
+| **Total** | **All Categories** | **72** | **1.39%** | **2.78%** | **+1.39 pts** |
 
 #### Language Slice Breakdown
 
-| Language | Attacks | Baseline ASR | Guarded ASR | Reduction |
+| Language | Attacks | Baseline ASR | Guarded ASR | Change |
 | :--- | :---: | :---: | :---: | :---: |
-| **English (en)** | 36 | 0.00% | 5.56% | 0.00% |
-| **French (fr)** | 36 | 2.78% | 0.00% | -2.78% |
+| **English (en)** | 36 | 0.00% | 5.56% | +5.56 pts |
+| **French (fr)** | 36 | 2.78% | 0.00% | -2.78 pts |
 
 ### Guardrail Cost and Impact on Legitimate Traffic
 

@@ -5,7 +5,7 @@ from __future__ import annotations
 from pathlib import Path
 
 from scripts.evaluate_legitimate import estimate_tokens, is_refusal_response, load_golden_questions
-from scripts.generate_report import build_markdown_report, update_readme
+from scripts.generate_report import build_markdown_report, change_pts, update_readme
 
 
 def test_is_refusal_response():
@@ -91,3 +91,9 @@ def test_update_readme(tmp_path):
     updated_content = readme.read_text(encoding="utf-8")
     assert "### Updated Table" in updated_content
     assert "Data here" not in updated_content
+
+
+def test_change_pts_signs_increases_and_decreases():
+    assert change_pts(0.0, 0.0833) == "+8.33 pts"
+    assert change_pts(0.0278, 0.0) == "-2.78 pts"
+    assert change_pts(0.05, 0.05) == "0.00 pts"
