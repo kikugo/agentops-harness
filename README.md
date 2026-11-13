@@ -27,6 +27,8 @@ Phase 1 (tracing) in progress. Results tables will be generated from `results/*.
 
 ## Results
 
+![Attacks blocked per OWASP category with and without guardrails, and the false-refusal rate on legitimate questions](docs/images/attacks-blocked.webp)
+
 <!-- RESULTS:START -->
 ### Attack Success Rate Before and After Guardrails
 
