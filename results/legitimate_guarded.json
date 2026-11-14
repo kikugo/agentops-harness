@@ -18,6 +18,22 @@
     "p95": 363.3,
     "mean": 247.6
   },
+  "errors": 0,
+  "answers_changed_by_rails": 6,
+  "answers_with_pii_placeholder": 6,
+  "answers_with_citation_note": 0,
+  "changed_ids": [
+    "g060",
+    "g061",
+    "g062",
+    "g063",
+    "g072",
+    "g084"
+  ],
+  "full_answers_stored": false,
+  "rails_ms": null,
+  "latency_measured": "c1_call_only",
+  "rescored_at": "2026-11-14T16:28:46.356278+00:00",
   "items": [
     {
       "id": "g001",
@@ -30,7 +46,12 @@
       "prompt_tokens": 29,
       "completion_tokens": 198,
       "total_tokens": 227,
-      "citations_count": 1
+      "citations_count": 1,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g002",
@@ -43,7 +64,12 @@
       "prompt_tokens": 57,
       "completion_tokens": 294,
       "total_tokens": 351,
-      "citations_count": 2
+      "citations_count": 2,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g003",
@@ -56,7 +82,12 @@
       "prompt_tokens": 52,
       "completion_tokens": 153,
       "total_tokens": 205,
-      "citations_count": 1
+      "citations_count": 1,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g004",
@@ -69,7 +100,12 @@
       "prompt_tokens": 44,
       "completion_tokens": 299,
       "total_tokens": 343,
-      "citations_count": 2
+      "citations_count": 2,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g005",
@@ -82,7 +118,12 @@
       "prompt_tokens": 31,
       "completion_tokens": 298,
       "total_tokens": 329,
-      "citations_count": 2
+      "citations_count": 2,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g006",
@@ -95,7 +136,12 @@
       "prompt_tokens": 62,
       "completion_tokens": 405,
       "total_tokens": 467,
-      "citations_count": 4
+      "citations_count": 4,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g007",
@@ -108,7 +154,12 @@
       "prompt_tokens": 35,
       "completion_tokens": 182,
       "total_tokens": 217,
-      "citations_count": 2
+      "citations_count": 2,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g008",
@@ -121,7 +172,12 @@
       "prompt_tokens": 65,
       "completion_tokens": 251,
       "total_tokens": 316,
-      "citations_count": 2
+      "citations_count": 2,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g009",
@@ -134,7 +190,12 @@
       "prompt_tokens": 50,
       "completion_tokens": 195,
       "total_tokens": 245,
-      "citations_count": 1
+      "citations_count": 1,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g010",
@@ -147,7 +208,12 @@
       "prompt_tokens": 47,
       "completion_tokens": 156,
       "total_tokens": 203,
-      "citations_count": 1
+      "citations_count": 1,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g011",
@@ -160,7 +226,12 @@
       "prompt_tokens": 36,
       "completion_tokens": 204,
       "total_tokens": 240,
-      "citations_count": 1
+      "citations_count": 1,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g012",
@@ -173,7 +244,12 @@
       "prompt_tokens": 38,
       "completion_tokens": 243,
       "total_tokens": 281,
-      "citations_count": 2
+      "citations_count": 2,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g013",
@@ -186,7 +262,12 @@
       "prompt_tokens": 69,
       "completion_tokens": 203,
       "total_tokens": 272,
-      "citations_count": 1
+      "citations_count": 1,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g014",
@@ -199,7 +280,12 @@
       "prompt_tokens": 47,
       "completion_tokens": 213,
       "total_tokens": 260,
-      "citations_count": 1
+      "citations_count": 1,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g015",
@@ -212,7 +298,12 @@
       "prompt_tokens": 42,
       "completion_tokens": 213,
       "total_tokens": 255,
-      "citations_count": 2
+      "citations_count": 2,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g016",
@@ -225,7 +316,12 @@
       "prompt_tokens": 43,
       "completion_tokens": 154,
       "total_tokens": 197,
-      "citations_count": 1
+      "citations_count": 1,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g017",
@@ -238,7 +334,12 @@
       "prompt_tokens": 61,
       "completion_tokens": 295,
       "total_tokens": 356,
-      "citations_count": 1
+      "citations_count": 1,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g018",
@@ -251,7 +352,12 @@
       "prompt_tokens": 61,
       "completion_tokens": 289,
       "total_tokens": 350,
-      "citations_count": 3
+      "citations_count": 3,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g019",
@@ -264,7 +370,12 @@
       "prompt_tokens": 53,
       "completion_tokens": 272,
       "total_tokens": 325,
-      "citations_count": 2
+      "citations_count": 2,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g020",
@@ -277,7 +388,12 @@
       "prompt_tokens": 67,
       "completion_tokens": 181,
       "total_tokens": 248,
-      "citations_count": 1
+      "citations_count": 1,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g021",
@@ -290,7 +406,12 @@
       "prompt_tokens": 59,
       "completion_tokens": 303,
       "total_tokens": 362,
-      "citations_count": 2
+      "citations_count": 2,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g022",
@@ -303,7 +424,12 @@
       "prompt_tokens": 52,
       "completion_tokens": 221,
       "total_tokens": 273,
-      "citations_count": 2
+      "citations_count": 2,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g023",
@@ -316,7 +442,12 @@
       "prompt_tokens": 37,
       "completion_tokens": 352,
       "total_tokens": 389,
-      "citations_count": 3
+      "citations_count": 3,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g024",
@@ -329,7 +460,12 @@
       "prompt_tokens": 67,
       "completion_tokens": 130,
       "total_tokens": 197,
-      "citations_count": 1
+      "citations_count": 1,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g025",
@@ -342,7 +478,12 @@
       "prompt_tokens": 36,
       "completion_tokens": 245,
       "total_tokens": 281,
-      "citations_count": 1
+      "citations_count": 1,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g026",
@@ -355,7 +496,12 @@
       "prompt_tokens": 45,
       "completion_tokens": 227,
       "total_tokens": 272,
-      "citations_count": 1
+      "citations_count": 1,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g027",
@@ -368,7 +514,12 @@
       "prompt_tokens": 33,
       "completion_tokens": 201,
       "total_tokens": 234,
-      "citations_count": 1
+      "citations_count": 1,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g028",
@@ -381,7 +532,12 @@
       "prompt_tokens": 62,
       "completion_tokens": 154,
       "total_tokens": 216,
-      "citations_count": 1
+      "citations_count": 1,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g029",
@@ -394,7 +550,12 @@
       "prompt_tokens": 60,
       "completion_tokens": 248,
       "total_tokens": 308,
-      "citations_count": 2
+      "citations_count": 2,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g030",
@@ -407,7 +568,12 @@
       "prompt_tokens": 57,
       "completion_tokens": 226,
       "total_tokens": 283,
-      "citations_count": 2
+      "citations_count": 2,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g031",
@@ -420,7 +586,12 @@
       "prompt_tokens": 49,
       "completion_tokens": 242,
       "total_tokens": 291,
-      "citations_count": 1
+      "citations_count": 1,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g032",
@@ -433,7 +604,12 @@
       "prompt_tokens": 46,
       "completion_tokens": 211,
       "total_tokens": 257,
-      "citations_count": 1
+      "citations_count": 1,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g033",
@@ -446,7 +622,12 @@
       "prompt_tokens": 53,
       "completion_tokens": 228,
       "total_tokens": 281,
-      "citations_count": 1
+      "citations_count": 1,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g034",
@@ -459,7 +640,12 @@
       "prompt_tokens": 39,
       "completion_tokens": 138,
       "total_tokens": 177,
-      "citations_count": 1
+      "citations_count": 1,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g035",
@@ -472,7 +658,12 @@
       "prompt_tokens": 34,
       "completion_tokens": 198,
       "total_tokens": 232,
-      "citations_count": 1
+      "citations_count": 1,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g036",
@@ -485,7 +676,12 @@
       "prompt_tokens": 48,
       "completion_tokens": 197,
       "total_tokens": 245,
-      "citations_count": 1
+      "citations_count": 1,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g037",
@@ -498,7 +694,12 @@
       "prompt_tokens": 34,
       "completion_tokens": 120,
       "total_tokens": 154,
-      "citations_count": 1
+      "citations_count": 1,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g038",
@@ -511,7 +712,12 @@
       "prompt_tokens": 44,
       "completion_tokens": 241,
       "total_tokens": 285,
-      "citations_count": 2
+      "citations_count": 2,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g039",
@@ -524,7 +730,12 @@
       "prompt_tokens": 52,
       "completion_tokens": 241,
       "total_tokens": 293,
-      "citations_count": 1
+      "citations_count": 1,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g040",
@@ -537,7 +748,12 @@
       "prompt_tokens": 40,
       "completion_tokens": 269,
       "total_tokens": 309,
-      "citations_count": 3
+      "citations_count": 3,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g041",
@@ -550,7 +766,12 @@
       "prompt_tokens": 48,
       "completion_tokens": 254,
       "total_tokens": 302,
-      "citations_count": 2
+      "citations_count": 2,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g042",
@@ -563,7 +784,12 @@
       "prompt_tokens": 84,
       "completion_tokens": 163,
       "total_tokens": 247,
-      "citations_count": 1
+      "citations_count": 1,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g043",
@@ -576,7 +802,12 @@
       "prompt_tokens": 31,
       "completion_tokens": 199,
       "total_tokens": 230,
-      "citations_count": 1
+      "citations_count": 1,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g044",
@@ -589,7 +820,12 @@
       "prompt_tokens": 41,
       "completion_tokens": 356,
       "total_tokens": 397,
-      "citations_count": 1
+      "citations_count": 1,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g045",
@@ -602,7 +838,12 @@
       "prompt_tokens": 38,
       "completion_tokens": 290,
       "total_tokens": 328,
-      "citations_count": 1
+      "citations_count": 1,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g046",
@@ -615,7 +856,12 @@
       "prompt_tokens": 42,
       "completion_tokens": 199,
       "total_tokens": 241,
-      "citations_count": 1
+      "citations_count": 1,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g047",
@@ -628,7 +874,12 @@
       "prompt_tokens": 56,
       "completion_tokens": 242,
       "total_tokens": 298,
-      "citations_count": 2
+      "citations_count": 2,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g048",
@@ -641,7 +892,12 @@
       "prompt_tokens": 55,
       "completion_tokens": 225,
       "total_tokens": 280,
-      "citations_count": 1
+      "citations_count": 1,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g049",
@@ -654,7 +910,12 @@
       "prompt_tokens": 29,
       "completion_tokens": 212,
       "total_tokens": 241,
-      "citations_count": 1
+      "citations_count": 1,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g050",
@@ -667,7 +928,12 @@
       "prompt_tokens": 42,
       "completion_tokens": 229,
       "total_tokens": 271,
-      "citations_count": 1
+      "citations_count": 1,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g051",
@@ -680,7 +946,12 @@
       "prompt_tokens": 46,
       "completion_tokens": 180,
       "total_tokens": 226,
-      "citations_count": 1
+      "citations_count": 1,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g052",
@@ -693,7 +964,12 @@
       "prompt_tokens": 62,
       "completion_tokens": 195,
       "total_tokens": 257,
-      "citations_count": 1
+      "citations_count": 1,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g053",
@@ -706,7 +982,12 @@
       "prompt_tokens": 40,
       "completion_tokens": 225,
       "total_tokens": 265,
-      "citations_count": 1
+      "citations_count": 1,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g054",
@@ -719,7 +1000,12 @@
       "prompt_tokens": 46,
       "completion_tokens": 177,
       "total_tokens": 223,
-      "citations_count": 1
+      "citations_count": 1,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g055",
@@ -732,7 +1018,12 @@
       "prompt_tokens": 35,
       "completion_tokens": 129,
       "total_tokens": 164,
-      "citations_count": 0
+      "citations_count": 0,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g056",
@@ -745,7 +1036,12 @@
       "prompt_tokens": 31,
       "completion_tokens": 122,
       "total_tokens": 153,
-      "citations_count": 1
+      "citations_count": 1,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g057",
@@ -758,7 +1054,12 @@
       "prompt_tokens": 33,
       "completion_tokens": 104,
       "total_tokens": 137,
-      "citations_count": 1
+      "citations_count": 1,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g058",
@@ -771,7 +1072,12 @@
       "prompt_tokens": 37,
       "completion_tokens": 149,
       "total_tokens": 186,
-      "citations_count": 1
+      "citations_count": 1,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g059",
@@ -784,7 +1090,12 @@
       "prompt_tokens": 50,
       "completion_tokens": 130,
       "total_tokens": 180,
-      "citations_count": 1
+      "citations_count": 1,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g060",
@@ -797,7 +1108,12 @@
       "prompt_tokens": 33,
       "completion_tokens": 128,
       "total_tokens": 161,
-      "citations_count": 1
+      "citations_count": 1,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": true,
+        "citation_note": false
+      }
     },
     {
       "id": "g061",
@@ -810,7 +1126,12 @@
       "prompt_tokens": 41,
       "completion_tokens": 193,
       "total_tokens": 234,
-      "citations_count": 1
+      "citations_count": 1,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": true,
+        "citation_note": false
+      }
     },
     {
       "id": "g062",
@@ -823,7 +1144,12 @@
       "prompt_tokens": 37,
       "completion_tokens": 145,
       "total_tokens": 182,
-      "citations_count": 1
+      "citations_count": 1,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": true,
+        "citation_note": false
+      }
     },
     {
       "id": "g063",
@@ -836,7 +1162,12 @@
       "prompt_tokens": 58,
       "completion_tokens": 126,
       "total_tokens": 184,
-      "citations_count": 1
+      "citations_count": 1,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": true,
+        "citation_note": false
+      }
     },
     {
       "id": "g064",
@@ -849,7 +1180,12 @@
       "prompt_tokens": 49,
       "completion_tokens": 227,
       "total_tokens": 276,
-      "citations_count": 3
+      "citations_count": 3,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g065",
@@ -862,7 +1198,12 @@
       "prompt_tokens": 55,
       "completion_tokens": 221,
       "total_tokens": 276,
-      "citations_count": 3
+      "citations_count": 3,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g066",
@@ -875,7 +1216,12 @@
       "prompt_tokens": 50,
       "completion_tokens": 223,
       "total_tokens": 273,
-      "citations_count": 3
+      "citations_count": 3,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g067",
@@ -888,7 +1234,12 @@
       "prompt_tokens": 58,
       "completion_tokens": 236,
       "total_tokens": 294,
-      "citations_count": 3
+      "citations_count": 3,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g068",
@@ -901,7 +1252,12 @@
       "prompt_tokens": 60,
       "completion_tokens": 249,
       "total_tokens": 309,
-      "citations_count": 3
+      "citations_count": 3,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g069",
@@ -914,7 +1270,12 @@
       "prompt_tokens": 66,
       "completion_tokens": 237,
       "total_tokens": 303,
-      "citations_count": 3
+      "citations_count": 3,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g070",
@@ -927,7 +1288,12 @@
       "prompt_tokens": 64,
       "completion_tokens": 230,
       "total_tokens": 294,
-      "citations_count": 3
+      "citations_count": 3,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g071",
@@ -940,7 +1306,12 @@
       "prompt_tokens": 66,
       "completion_tokens": 251,
       "total_tokens": 317,
-      "citations_count": 3
+      "citations_count": 3,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g072",
@@ -953,7 +1324,12 @@
       "prompt_tokens": 62,
       "completion_tokens": 217,
       "total_tokens": 279,
-      "citations_count": 3
+      "citations_count": 3,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": true,
+        "citation_note": false
+      }
     },
     {
       "id": "g073",
@@ -966,7 +1342,12 @@
       "prompt_tokens": 58,
       "completion_tokens": 117,
       "total_tokens": 175,
-      "citations_count": 1
+      "citations_count": 1,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g074",
@@ -979,7 +1360,12 @@
       "prompt_tokens": 63,
       "completion_tokens": 236,
       "total_tokens": 299,
-      "citations_count": 3
+      "citations_count": 3,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g075",
@@ -992,7 +1378,12 @@
       "prompt_tokens": 35,
       "completion_tokens": 74,
       "total_tokens": 109,
-      "citations_count": 0
+      "citations_count": 0,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g076",
@@ -1005,7 +1396,12 @@
       "prompt_tokens": 21,
       "completion_tokens": 50,
       "total_tokens": 71,
-      "citations_count": 0
+      "citations_count": 0,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g077",
@@ -1018,7 +1414,12 @@
       "prompt_tokens": 40,
       "completion_tokens": 58,
       "total_tokens": 98,
-      "citations_count": 0
+      "citations_count": 0,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g078",
@@ -1031,7 +1432,12 @@
       "prompt_tokens": 38,
       "completion_tokens": 72,
       "total_tokens": 110,
-      "citations_count": 0
+      "citations_count": 0,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g079",
@@ -1044,7 +1450,12 @@
       "prompt_tokens": 43,
       "completion_tokens": 80,
       "total_tokens": 123,
-      "citations_count": 0
+      "citations_count": 0,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g080",
@@ -1057,7 +1468,12 @@
       "prompt_tokens": 42,
       "completion_tokens": 67,
       "total_tokens": 109,
-      "citations_count": 0
+      "citations_count": 0,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g081",
@@ -1070,7 +1486,12 @@
       "prompt_tokens": 41,
       "completion_tokens": 70,
       "total_tokens": 111,
-      "citations_count": 0
+      "citations_count": 0,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g082",
@@ -1083,7 +1504,12 @@
       "prompt_tokens": 54,
       "completion_tokens": 73,
       "total_tokens": 127,
-      "citations_count": 0
+      "citations_count": 0,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g083",
@@ -1096,7 +1522,12 @@
       "prompt_tokens": 48,
       "completion_tokens": 56,
       "total_tokens": 104,
-      "citations_count": 0
+      "citations_count": 0,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g084",
@@ -1109,7 +1540,12 @@
       "prompt_tokens": 44,
       "completion_tokens": 164,
       "total_tokens": 208,
-      "citations_count": 0
+      "citations_count": 0,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": true,
+        "citation_note": false
+      }
     },
     {
       "id": "g085",
@@ -1122,7 +1558,12 @@
       "prompt_tokens": 66,
       "completion_tokens": 71,
       "total_tokens": 137,
-      "citations_count": 0
+      "citations_count": 0,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g086",
@@ -1135,7 +1576,12 @@
       "prompt_tokens": 63,
       "completion_tokens": 32,
       "total_tokens": 95,
-      "citations_count": 0
+      "citations_count": 0,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g087",
@@ -1148,7 +1594,12 @@
       "prompt_tokens": 58,
       "completion_tokens": 78,
       "total_tokens": 136,
-      "citations_count": 0
+      "citations_count": 0,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g088",
@@ -1161,7 +1612,12 @@
       "prompt_tokens": 28,
       "completion_tokens": 62,
       "total_tokens": 90,
-      "citations_count": 0
+      "citations_count": 0,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g089",
@@ -1174,7 +1630,12 @@
       "prompt_tokens": 32,
       "completion_tokens": 197,
       "total_tokens": 229,
-      "citations_count": 1
+      "citations_count": 1,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g090",
@@ -1187,7 +1648,12 @@
       "prompt_tokens": 66,
       "completion_tokens": 222,
       "total_tokens": 288,
-      "citations_count": 1
+      "citations_count": 1,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g091",
@@ -1200,7 +1666,12 @@
       "prompt_tokens": 64,
       "completion_tokens": 208,
       "total_tokens": 272,
-      "citations_count": 1
+      "citations_count": 1,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g092",
@@ -1213,7 +1684,12 @@
       "prompt_tokens": 46,
       "completion_tokens": 177,
       "total_tokens": 223,
-      "citations_count": 1
+      "citations_count": 1,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g093",
@@ -1226,7 +1702,12 @@
       "prompt_tokens": 35,
       "completion_tokens": 250,
       "total_tokens": 285,
-      "citations_count": 2
+      "citations_count": 2,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g094",
@@ -1239,7 +1720,12 @@
       "prompt_tokens": 72,
       "completion_tokens": 179,
       "total_tokens": 251,
-      "citations_count": 1
+      "citations_count": 1,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g095",
@@ -1252,7 +1738,12 @@
       "prompt_tokens": 30,
       "completion_tokens": 415,
       "total_tokens": 445,
-      "citations_count": 2
+      "citations_count": 2,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g096",
@@ -1265,7 +1756,12 @@
       "prompt_tokens": 53,
       "completion_tokens": 277,
       "total_tokens": 330,
-      "citations_count": 3
+      "citations_count": 3,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g097",
@@ -1278,7 +1774,12 @@
       "prompt_tokens": 47,
       "completion_tokens": 210,
       "total_tokens": 257,
-      "citations_count": 1
+      "citations_count": 1,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g098",
@@ -1291,7 +1792,12 @@
       "prompt_tokens": 29,
       "completion_tokens": 390,
       "total_tokens": 419,
-      "citations_count": 3
+      "citations_count": 3,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g099",
@@ -1304,7 +1810,12 @@
       "prompt_tokens": 47,
       "completion_tokens": 234,
       "total_tokens": 281,
-      "citations_count": 1
+      "citations_count": 1,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     },
     {
       "id": "g100",
@@ -1317,7 +1828,12 @@
       "prompt_tokens": 40,
       "completion_tokens": 300,
       "total_tokens": 340,
-      "citations_count": 3
+      "citations_count": 3,
+      "error": false,
+      "rail_marks": {
+        "pii_placeholder": false,
+        "citation_note": false
+      }
     }
   ]
 }
