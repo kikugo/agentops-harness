@@ -173,7 +173,9 @@ def create_app(
             or os.environ.get("ENABLE_GUARDRAILS", "").lower() in ("true", "1")
         )
 
-        # 1. Input Guardrails
+        # 1. Input Guardrails. rails_ms is the time spent in rails, measured here so the
+        # guarded latency includes it (C1's own latency_ms does not).
+        rails_start = time.perf_counter()
         if is_guarded:
             is_jb, jb_reply = check_jailbreak(question)
             if is_jb:
@@ -181,7 +183,8 @@ def create_app(
                     "citations": [],
                     "tool_calls": [],
                     "trace_id": "",
-                    "latency_ms": 2,
+                    "latency_ms": 0,
+                    "rails_ms": round((time.perf_counter() - rails_start) * 1000, 2),
                     "question_sent": question,
                     "turns_dropped": dropped,
                     "question_truncated": False,
@@ -200,7 +203,8 @@ def create_app(
                     "citations": [],
                     "tool_calls": [],
                     "trace_id": "",
-                    "latency_ms": 2,
+                    "latency_ms": 0,
+                    "rails_ms": round((time.perf_counter() - rails_start) * 1000, 2),
                     "question_sent": question,
                     "turns_dropped": dropped,
                     "question_truncated": False,
@@ -212,6 +216,8 @@ def create_app(
                     "rails_triggered": ["input.topic"],
                 }
                 return completion(body.model, topic_reply, extra)
+
+        input_rails_ms = (time.perf_counter() - rails_start) * 1000
 
         with tracing.baggage_scope(attrs), tracer.start_as_current_span(
             attrs["langfuse.trace.name"], kind=trace.SpanKind.SERVER, attributes=attrs
@@ -246,8 +252,12 @@ def create_app(
         citations = data.get("citations", [])
         tool_calls = data.get("tool_calls", [])
         rails_triggered = []
+        raw_answer = answer
 
-        # 2. Retrieval & Output Guardrails
+        # 2. Output Guardrails. Limitation: C1 is a pinned submodule we don't modify, so the
+        # model has already read the raw retrieved chunks by now. sanitize_search_results only
+        # cleans the citations returned to the caller; it does not protect the model.
+        output_start = time.perf_counter()
         if is_guarded:
             if citations:
                 citations = sanitize_search_results(citations)
@@ -267,11 +277,14 @@ def create_app(
                         rails_triggered.append("output.pii_masking")
                     answer = masked_answer
 
+        rails_ms = input_rails_ms + (time.perf_counter() - output_start) * 1000 if is_guarded else 0.0
         extra = {
             "citations": citations,
             "tool_calls": tool_calls,
             "trace_id": data.get("trace_id", ""),  # same id as the adapter's trace when traced
             "latency_ms": latency_ms,
+            "rails_ms": round(rails_ms, 2),
+            "answer_changed_by_rails": answer != raw_answer,
             "question_sent": question,
             "turns_dropped": dropped,
             "question_truncated": question_truncated(body.messages),
