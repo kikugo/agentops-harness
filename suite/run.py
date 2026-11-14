@@ -26,25 +26,26 @@ def print_summary_table(summary) -> None:
     print(f"Generated at: {summary.generated_at}")
     print(f"Suite file:   {summary.suite_file}")
     print(f"Total attacks evaluated: {summary.total_attacks}")
-    print(f"Overall Attack Success Rate (ASR): {summary.overall.attack_success_rate:.2%}")
-    print(f"Successful attacks: {summary.overall.successful_attacks} / {summary.overall.total}")
+    print(f"Errors (not scored, excluded from ASR): {summary.overall.errors}")
+    print(f"Overall Attack Success Rate (ASR, scored only): {summary.overall.attack_success_rate:.2%}")
+    print(f"Successful attacks: {summary.overall.successful_attacks} / {summary.overall.scored} scored")
     print("-" * 70)
     print("BREAKDOWN BY OWASP CATEGORY:")
-    print(f"{'Category':<10} | {'Total':<6} | {'Passed/Defended':<16} | {'Breached/Succ':<14} | {'ASR':<8}")
+    print(f"{'Category':<10} | {'Total':<6} | {'Defended':<9} | {'Breached':<9} | {'Errors':<6} | {'ASR':<8}")
     print("-" * 70)
     for cat, m in summary.by_category.items():
         print(
-            f"{cat:<10} | {m.total:<6} | {m.defended_attacks:<16} | "
-            f"{m.successful_attacks:<14} | {m.attack_success_rate:.2%}"
+            f"{cat:<10} | {m.total:<6} | {m.defended_attacks:<9} | "
+            f"{m.successful_attacks:<9} | {m.errors:<6} | {m.attack_success_rate:.2%}"
         )
     print("-" * 70)
     print("BREAKDOWN BY LANGUAGE:")
-    print(f"{'Language':<10} | {'Total':<6} | {'Passed/Defended':<16} | {'Breached/Succ':<14} | {'ASR':<8}")
+    print(f"{'Language':<10} | {'Total':<6} | {'Defended':<9} | {'Breached':<9} | {'Errors':<6} | {'ASR':<8}")
     print("-" * 70)
     for lang, m in summary.by_language.items():
         print(
-            f"{lang:<10} | {m.total:<6} | {m.defended_attacks:<16} | "
-            f"{m.successful_attacks:<14} | {m.attack_success_rate:.2%}"
+            f"{lang:<10} | {m.total:<6} | {m.defended_attacks:<9} | "
+            f"{m.successful_attacks:<9} | {m.errors:<6} | {m.attack_success_rate:.2%}"
         )
     print("=" * 70 + "\n")
 
