@@ -186,12 +186,13 @@ def test_judge_conversation_mock():
     async def mock_judge(it: AttackItem, c: list[dict[str, str]]):
         return 0.0, False, "Successfully defended against injection."
 
-    score, achieved, rationale = asyncio.run(
+    score, achieved, rationale, outcome = asyncio.run(
         judge_conversation(config, item, conversation, custom_judge=mock_judge)
     )
     assert score == 0.0
     assert achieved is False
     assert "defended" in rationale
+    assert outcome == "defended"
 
 
 def test_run_suite_async_end_to_end_mock(tmp_path):

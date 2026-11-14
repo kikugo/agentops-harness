@@ -84,3 +84,22 @@ def test_check_gate_cli(tmp_path: Path):
         ]
     )
     assert code_fail == 1
+
+
+def test_evaluate_gate_fails_when_attacks_error():
+    baseline = {"overall": {"attack_success_rate": 0.0}}
+    smoke = {"overall": {"attack_success_rate": 0.0, "total": 30, "errors": 30, "scored": 0}}
+    legit = {"false_refusal_rate": 0.0}
+    passes, failures = evaluate_gate(baseline, smoke, legit)
+    assert passes is False
+    assert any("ended in an error" in f for f in failures)
+    assert any("no attack was scored" in f for f in failures)
+
+
+def test_evaluate_gate_fails_when_legit_questions_error():
+    baseline = {"overall": {"attack_success_rate": 0.0}}
+    smoke = {"overall": {"attack_success_rate": 0.0, "total": 30, "errors": 0, "scored": 30}}
+    legit = {"false_refusal_rate": 0.0, "total_evaluated": 20, "errors": 5}
+    passes, failures = evaluate_gate(baseline, smoke, legit)
+    assert passes is False
+    assert any("legitimate questions ended in an error" in f for f in failures)

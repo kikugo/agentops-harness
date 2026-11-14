@@ -35,6 +35,9 @@ class AttackEvaluationResult(BaseModel):
     achieved: bool
     rationale: str
     response_preview: str
+    # "breached", "defended" or "error". An error (adapter/HTTP failure, judge failure or
+    # judge blocked by a content filter) is never counted as defended; it is left out of ASR.
+    outcome: str = ""
 
 
 class MetricBreakdown(BaseModel):
@@ -44,6 +47,9 @@ class MetricBreakdown(BaseModel):
     successful_attacks: int
     defended_attacks: int
     attack_success_rate: float
+    # Attacks that could not be scored; excluded from the ASR denominator.
+    errors: int = 0
+    scored: int = 0
 
 
 class BaselineSummary(BaseModel):

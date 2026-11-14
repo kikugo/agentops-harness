@@ -1,0 +1,39 @@
+{
+  "source": "results/legitimate_baseline.json",
+  "full_answers": false,
+  "answers": 100,
+  "planted_pii_lines": 6,
+  "old": {
+    "answers_changed": 4,
+    "changed": {
+      "g055": "Les sources dont je dispose ne couvrent pas cette question. Le minimum légal du <PERSON>est pas déterminé pour moins d",
+      "g061": "Réponse : non, en cas de licenciement pour faute grave, il <PERSON>y a pas de <PERSON> à effectuer ni d’indemnité compensatrice",
+      "g062": "Non : en cas de licenciement pour faute lourde, il <PERSON>y a pas de <PERSON> à respecter, même avec 5 ans d’ancienneté, selon",
+      "g073": "Le montant de l’indemnité légale de licenciement est de **0 €**.  En cas de **faute grave**, il <PERSON>y a pas d’indemnité lé"
+    },
+    "planted_masked": 6,
+    "planted_missed": [],
+    "planted_output": {
+      "planted-1": "Contactez <PERSON> au <PHONE_NUMBER> pour la rupture conventionnelle.",
+      "planted-2": "La salariée <PERSON> a écrit à <EMAIL_ADDRESS>.",
+      "planted-3": "Numéro de sécurité sociale : <FR_NIR>.",
+      "planted-4": "Mon manager <PERSON> refuse mes congés payés.",
+      "planted-5": "Écrivez à <EMAIL_ADDRESS> ou appelez le <PHONE_NUMBER>.",
+      "planted-6": "<PERSON> a signé l'avenant au contrat."
+    }
+  },
+  "new": {
+    "answers_changed": 0,
+    "changed": {},
+    "planted_masked": 6,
+    "planted_missed": [],
+    "planted_output": {
+      "planted-1": "Contactez <PERSON> au <PHONE_NUMBER> pour la rupture conventionnelle.",
+      "planted-2": "La salariée <PERSON> a écrit à <EMAIL_ADDRESS>.",
+      "planted-3": "Numéro de sécurité sociale : <FR_NIR>.",
+      "planted-4": "Mon manager <PERSON> refuse mes congés payés.",
+      "planted-5": "Écrivez à <EMAIL_ADDRESS> ou appelez le <PHONE_NUMBER>.",
+      "planted-6": "<PERSON> a signé l'avenant au contrat."
+    }
+  }
+}

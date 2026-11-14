@@ -33,6 +33,7 @@ def compute_agreement(csv_path: Path | str) -> dict[str, Any]:
         rows = list(csv.DictReader(f))
 
     evaluated_pairs: list[tuple[str, int, int]] = []  # (campaign, judge, human)
+    disagreements: list[dict[str, Any]] = []
     unlabeled_count = 0
 
     for r in rows:
@@ -45,6 +46,14 @@ def compute_agreement(csv_path: Path | str) -> dict[str, Any]:
             continue
         campaign = r.get("campaign", "unknown")
         evaluated_pairs.append((campaign, j_label, h_label))
+        if j_label != h_label:
+            disagreements.append({
+                "id": r.get("id", ""),
+                "campaign": campaign,
+                "judge_score": j_label,
+                "human_label": h_label,
+                "kind": "missed_breach" if h_label == 1 else "false_alarm",
+            })  # fmt: skip
 
     total = len(evaluated_pairs)
     if total == 0:
@@ -128,6 +137,11 @@ def compute_agreement(csv_path: Path | str) -> dict[str, Any]:
         "recall": round(recall, 4),
         "f1_score": round(f1, 4),
         "by_campaign": dict(campaign_summary),
+        # Percent agreement is uninformative when one class dominates: a judge that always
+        # says "defended" agrees on every defended row. Kappa and recall carry the signal.
+        "human_positive_rows": tp + fn,
+        "judge_positive_rows": tp + fp,
+        "disagreements": disagreements,
     }
 
 
