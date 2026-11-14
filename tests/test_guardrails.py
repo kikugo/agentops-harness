@@ -185,3 +185,40 @@ def test_pipeline_integration():
     )
     assert res_legit["refusal"] is False
     assert "article L1234-1" in res_legit["answer"]
+
+
+@pytest.mark.parametrize(
+    "text",
+    [
+        "Réponse : non, en cas de licenciement pour faute grave, il n’y a pas de préavis à effectuer.",
+        "Cela correspond au minimum légal prévu par l’article L1234-1** pour un salarié.",
+        "L’outil a appliqué l’article R1234-2** et R1234-4.",
+        "Le salarié n’atteint pas 8 mois d’ancienneté.",
+    ],
+)
+def test_presidio_leaves_french_legal_text_alone(text):
+    masker = PresidioMasker()
+    assert masker.mask(text, language="fr") == text
+
+
+@pytest.mark.parametrize(
+    "text,tag",
+    [
+        ("Contactez Jean Dupont pour la rupture.", "<PERSON>"),
+        ("Écrivez à rh@example.fr.", "<EMAIL_ADDRESS>"),
+        ("Appelez le +33 6 11 22 33 44.", "<PHONE_NUMBER>"),
+        ("Appelez le 06 12 34 56 78.", "<PHONE_NUMBER>"),
+    ],
+)
+def test_presidio_still_masks_real_pii(text, tag):
+    assert tag in PresidioMasker().mask(text, language="fr")
+
+
+def test_plausible_person_shape():
+    from guardrails.output_rails import plausible_person
+
+    assert plausible_person("Jean Dupont")
+    assert plausible_person("Sophie de La Tour")
+    assert not plausible_person("n’")
+    assert not plausible_person("Cela")
+    assert not plausible_person("l’article L1234-1")
